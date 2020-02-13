@@ -124,7 +124,7 @@ void BST::parent(string word)
 		cout << endl;
 		return;
 	}
-	cout << p->parent << endl;
+	cout << p->parent->word << endl;
 }
 
 void BST::child(string word)
