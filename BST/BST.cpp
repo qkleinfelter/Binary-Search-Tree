@@ -9,7 +9,7 @@
 	Author: Quinn Kleinfelter
 	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
 	Instructor: Dr. Thomas
-	Last Edited: 2/12/20
+	Last Edited: 2/13/20
 	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
 */
 
@@ -130,7 +130,11 @@ void BST::parent(string word)
 void BST::child(string word)
 {
 	node* p = findNode(word);
-	if (p == NULL) cout << endl;
+	if (p == NULL)
+	{
+		cout << endl;
+		return;
+	}
 	cout << p->left->word << " " << p->right->word << endl;
 }
 
