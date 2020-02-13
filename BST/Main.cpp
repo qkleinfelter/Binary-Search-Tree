@@ -1,5 +1,9 @@
-// BST.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+	Quinn Kleinfelter
+	EECS 2510-001 Non Linear Data Structures Spring 2020
+	Dr. Thomas
+	Last Edited: 2/12/20
+*/
 
 #include <iostream>
 
