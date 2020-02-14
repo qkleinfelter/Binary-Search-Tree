@@ -9,7 +9,7 @@
 	Author: Quinn Kleinfelter
 	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
 	Instructor: Dr. Thomas
-	Last Edited: 2/13/20
+	Last Edited: 2/14/20
 	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
 */
 
@@ -31,6 +31,39 @@ BST::~BST()
 
 void BST::insert(string word)
 {
+	node* x = root;
+	node* y = nullptr;
+	while (x != NULL)
+	{
+		y = x;
+		if (x->word == word)
+		{
+			x->count++;
+			cout << x->word << " " << x->count << endl;
+			return;
+		}
+		x = word < x->word ? x->left : x->right;
+	}
+	node* newNode = new node;
+	newNode->count = 1;
+	newNode->word = word;
+	newNode->left = NULL;
+	newNode->right = NULL;
+	newNode->parent = y;
+	
+	if (y == NULL)
+	{
+		root = newNode;
+	}
+	else if (newNode->word < y->word)
+	{
+		y->left = newNode;
+	}
+	else
+	{
+		y->right = newNode;
+	}
+	cout << newNode->word << " " << newNode->count << endl;
 }
 
 void BST::remove(string word)
@@ -51,16 +84,17 @@ void BST::search(string word)
 		// If we didn't find the word yet, check if it should be to the left or right of the current word,
 		// then set p to the left or right node.
 		p = word < p->word ? p->left : p->right;
+		return;
 	}
-	cout << word << "0" << endl; // If we didn't find the word in the list, and we fell of the edge of it, print the word with 0 count
+	cout << word << " 0"<< endl; // If we didn't find the word in the list, and we fell of the edge of it, print the word with 0 count
 }
 
-void BST::traverse(node* node)
+void BST::traverse(node* n)
 {
-	if (node == NULL) return;
-	traverse(node->left);
-	cout << node->word << endl;
-	traverse(node->right);
+	if (n == NULL) return;
+	traverse(n->left);
+	cout << n->word << endl;
+	traverse(n->right);
 }
 
 BST::node* BST::findNode(string word)
@@ -77,6 +111,11 @@ BST::node* BST::findNode(string word)
 void BST::min()
 {
 	node* p = root;
+	if (p == NULL)
+	{
+		cout << endl;
+		return;
+	}
 	while (p->left != NULL)
 	{
 		p = p->left;
@@ -84,14 +123,37 @@ void BST::min()
 	cout << p->word << endl;
 }
 
+BST::node* BST::min(node* n) 
+{
+	while (n->left != NULL)
+	{
+		n = n->left;
+	}
+	return n;
+}
+
 void BST::max()
 {
 	node* p = root;
+	if (p == NULL)
+	{
+		cout << endl;
+		return;
+	}
 	while (p->right != NULL)
 	{
 		p = p->right;
 	}
 	cout << p->word << endl;
+}
+
+BST::node* BST::max(node* n)
+{
+	while (n->right != NULL)
+	{
+		n = n->right;
+	}
+	return n;
 }
 
 void BST::next(string word)
@@ -102,7 +164,18 @@ void BST::next(string word)
 		cout << endl;
 		return;
 	}
-
+	if (p->right != NULL) {
+		node* successor = min(p->right);
+		cout << successor->word << endl;
+		return;
+	}
+	node* q = p->parent;
+	while (q != NULL && p == q->right)
+	{
+		p = q;
+		q = q->parent;
+	}
+	cout << q->word << endl;
 }
 
 void BST::prev(string word)
@@ -113,6 +186,18 @@ void BST::prev(string word)
 		cout << endl;
 		return;
 	}
+	if (p->left != NULL) {
+		node* successor = max(p->left);
+		cout << successor->word << endl;
+		return;
+	}
+	node* q = p->parent;
+	while (q != NULL && p == q->left)
+	{
+		p = q;
+		q = q->parent;
+	}
+	cout << q->word << endl;
 
 }
 

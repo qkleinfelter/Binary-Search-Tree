@@ -2,23 +2,79 @@
 	Quinn Kleinfelter
 	EECS 2510-001 Non Linear Data Structures Spring 2020
 	Dr. Thomas
-	Last Edited: 2/12/20
+	Last Edited: 2/14/20
 */
 
 #include <iostream>
+#include "BST.h"
+
+
+string toLower(const string& s)
+{
+	string temp(s);
+	for (int i = 0; i < s.length(); i++)
+		temp[i] = tolower(s[i]);
+	return temp;
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	BST* tree = new BST();
+	while (true)
+	{
+		string command = "";
+		string arg = "";
+		cin >> command >> arg;
+		command = toLower(command);
+		if (command == "insert")
+		{
+			tree->insert(arg);
+		}
+		else if (command == "delete")
+		{
+			tree->remove(arg);
+		}
+		else if (command == "search")
+		{
+			tree->search(arg);
+		}
+		else if (command == "min")
+		{
+			tree->min();
+		}
+		else if (command == "max")
+		{
+			tree->max();
+		}
+		else if (command == "next")
+		{
+			tree->next(arg);
+		}
+		else if (command == "prev")
+		{
+			tree->prev(arg);
+		}
+		else if (command == "list")
+		{
+			tree->list();
+		}
+		else if (command == "parent")
+		{
+			tree->parent(arg);
+		}
+		else if (command == "child")
+		{
+			tree->child(arg);
+		}
+		else if (command == "help")
+		{
+
+		}
+		else if (command == "quit")
+		{
+			return 1;
+		}
+	}
+	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

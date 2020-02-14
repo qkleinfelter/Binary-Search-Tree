@@ -2,7 +2,7 @@
 	Quinn Kleinfelter
 	EECS 2510-001 Non Linear Data Structures Spring 2020
 	Dr. Thomas
-	Last Edited: 2/12/20
+	Last Edited: 2/14/20
 */
 
 
@@ -37,6 +37,9 @@ private:
 
 	node* root = NULL; // A pointer to the root of our tree, NULL until we add a node to the tree
 
-	void traverse(node* node);
+	void traverse(node* n);
 	node* findNode(string word); // Returns a pointer to the node with a given word inside it
+
+	node* min(node* n);
+	node* max(node* n);
 };
