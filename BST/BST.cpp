@@ -89,12 +89,32 @@ void BST::search(string word)
 	cout << word << " 0"<< endl; // If we didn't find the word in the list, and we fell of the edge of it, print the word with 0 count
 }
 
-void BST::traverse(node* n)
+void BST::list()
+{
+	if (root == nullptr)
+	{
+		cout << "Set is empty" << endl;
+		return;
+	}
+	cout << "Set contains: ";
+	int index = 0;
+	traverse(index, root);
+}
+
+void BST::traverse(int& index,node* n)
 {
 	if (n == NULL) return;
-	traverse(n->left);
-	cout << n->word << endl;
-	traverse(n->right);
+	if (n->left != NULL)
+	{
+		traverse(index, n->left);
+		cout << ", ";
+	}
+	cout << "(" << ++index << ") " << n->word << " " << n->count++;
+	if (n->right != NULL)
+	{
+		cout << ", ";
+		traverse(index, n->right);
+	}
 }
 
 BST::node* BST::findNode(string word)
@@ -116,10 +136,7 @@ void BST::min()
 		cout << endl;
 		return;
 	}
-	while (p->left != NULL)
-	{
-		p = p->left;
-	}
+	p = min(p);
 	cout << p->word << endl;
 }
 
@@ -140,10 +157,7 @@ void BST::max()
 		cout << endl;
 		return;
 	}
-	while (p->right != NULL)
-	{
-		p = p->right;
-	}
+	p = max(p);
 	cout << p->word << endl;
 }
 
@@ -221,8 +235,4 @@ void BST::child(string word)
 		return;
 	}
 	cout << p->left->word << " " << p->right->word << endl;
-}
-
-void BST::list()
-{
 }

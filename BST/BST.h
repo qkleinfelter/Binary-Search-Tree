@@ -37,7 +37,7 @@ private:
 
 	node* root = NULL; // A pointer to the root of our tree, NULL until we add a node to the tree
 
-	void traverse(node* n);
+	void traverse(int& index, node* n);
 	node* findNode(string word); // Returns a pointer to the node with a given word inside it
 
 	node* min(node* n);
