@@ -42,4 +42,10 @@ private:
 
 	node* min(node* n);
 	node* max(node* n);
+
+	bool isLeaf(node* n);
+	bool isRoot(node* n);
+	int getChildCount(node* n);
+	bool isLeftChild(node* n);
+	bool isRightChild(node* n);
 };

@@ -27,6 +27,10 @@ BST::BST()
 BST::~BST()
 {
 	// Destructor
+	// Traversal like that to do postfix notation? - call on root
+	// recursive call to delete left
+	// recursive call to delete right
+	// delete current 
 }
 
 void BST::insert(string word)
@@ -68,6 +72,13 @@ void BST::insert(string word)
 
 void BST::remove(string word)
 {
+	node* p = findNode(word);
+	if (p->count > 1)
+	{
+		p->count--;
+		cout << p->word << " " << p->count << endl;
+		return;
+	}
 }
 
 void BST::search(string word)
@@ -101,7 +112,7 @@ void BST::list()
 	traverse(index, root);
 }
 
-void BST::traverse(int& index,node* n)
+void BST::traverse(int& index, node* n)
 {
 	if (n == NULL) return;
 	if (n->left != NULL)
@@ -235,4 +246,19 @@ void BST::child(string word)
 		return;
 	}
 	cout << p->left->word << " " << p->right->word << endl;
+}
+
+bool BST::isLeaf(node* n)
+{
+	return n->left == nullptr && n->right == nullptr;
+}
+
+bool BST::isRoot(node* n)
+{
+	return n == root;
+}
+
+bool BST::isLeftChild(node* n)
+{
+	return n == n->parent->left;
 }
