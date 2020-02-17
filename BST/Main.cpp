@@ -25,7 +25,7 @@ int main()
 	{
 		string command = "";
 		string arg = "";
-		cin >> command >> arg;
+		cin >> command >> arg; // Need to change this to use getline() and parse out command and arg, this always requires both
 		command = toLower(command);
 		if (command == "insert")
 		{
