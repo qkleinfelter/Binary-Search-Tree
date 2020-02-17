@@ -23,9 +23,18 @@ int main()
 	BST* tree = new BST();
 	while (true)
 	{
-		string command = "";
-		string arg = "";
-		cin >> command >> arg; // Need to change this to use getline() and parse out command and arg, this always requires both
+		string instring, command, arg = "";
+		getline(cin, instring);
+		int spaceLoc = instring.find(" ");
+		if (spaceLoc > 0)
+		{
+			command = instring.substr(0, spaceLoc);
+			arg = instring.substr(spaceLoc + 1);
+		}
+		else
+		{
+			command = instring;
+		}
 		command = toLower(command);
 		if (command == "insert")
 		{
