@@ -73,11 +73,65 @@ void BST::insert(string word)
 void BST::remove(string word)
 {
 	node* p = findNode(word);
+	if (p == NULL)
+	{
+		cout << word << " -1" << endl;
+		return;
+	}
 	if (p->count > 1)
 	{
-		p->count--;
+		p->count = p->count--;
 		cout << p->word << " " << p->count << endl;
 		return;
+	}
+	if (isLeaf(p))
+	{
+		if (isRoot(p))
+		{
+			delete p;
+			root = NULL;
+			cout << word << " 0" << endl;
+		}
+		else if (isLeftChild(p))
+		{
+			p->parent->left = NULL;
+			delete p;
+			cout << word << " 0" << endl;
+		}
+		else if (isRightChild(p))
+		{
+			p->parent->right = NULL;
+			delete p;
+			cout << word << " 0" << endl;
+		}
+	}
+	if (getChildCount(p) == 1) 
+	{
+		if (isRoot(p))
+		{
+			root = p->left != NULL ? p->left : p->right;
+			delete p;
+			cout << word << " 0" << endl;
+		}
+		else
+		{
+			if (isLeftChild(p))
+			{
+				node* q = p->left != NULL ? p->left : p->right;
+				p->parent->left = q;
+				q->parent = p->parent;
+				delete p;
+				cout << word << " 0" << endl;
+			}
+			else if (isRightChild(p))
+			{
+				node* q = p->left != NULL ? p->left : p->right;
+				p->parent->right = q;
+				q->parent = p->parent;
+				delete p;
+				cout << word << " 0" << endl;
+			}
+		}
 	}
 }
 
@@ -110,6 +164,7 @@ void BST::list()
 	cout << "Set contains: ";
 	int index = 0;
 	traverse(index, root);
+	cout << endl;
 }
 
 void BST::traverse(int& index, node* n)
@@ -120,7 +175,7 @@ void BST::traverse(int& index, node* n)
 		traverse(index, n->left);
 		cout << ", ";
 	}
-	cout << "(" << ++index << ") " << n->word << " " << n->count++;
+	cout << "(" << ++index << ") " << n->word << " " << n->count;
 	if (n->right != NULL)
 	{
 		cout << ", ";
@@ -261,4 +316,21 @@ bool BST::isRoot(node* n)
 bool BST::isLeftChild(node* n)
 {
 	return n == n->parent->left;
+}
+
+bool BST::isRightChild(node* n)
+{
+	return n == n->parent->right;
+}
+
+int BST::getChildCount(node* n)
+{
+	if (n == nullptr) return -1; // can’t count children of no node!
+	if (isLeaf(n)) return 0; // leaves have no child nodes
+	if (n->left != nullptr && n->right != nullptr) return 2; // 2 children
+	if (n->left != nullptr && n->right == nullptr) return 1; // 1 (l child)
+	if (n->left == nullptr && n->right != nullptr) return 1; // 1 (r child)
+	// it should not be possible to get here
+	cout << "Internal error in getChildCount\n"; // practice defensive
+	exit(1);									 // programming!
 }
