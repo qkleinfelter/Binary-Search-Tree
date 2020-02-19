@@ -26,11 +26,14 @@ BST::BST()
 
 BST::~BST()
 {
-	// Destructor
-	// Traversal like that to do postfix notation? - call on root
-	// recursive call to delete left
-	// recursive call to delete right
-	// delete current 
+	deleteNode(root);
+}
+
+void BST::deleteNode(node* n)
+{
+	if (n->left != NULL) deleteNode(n->left);
+	if (n->right != NULL) deleteNode(n->right);
+	delete n;
 }
 
 void BST::insert(string word)

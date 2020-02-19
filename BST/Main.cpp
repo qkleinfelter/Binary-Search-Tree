@@ -98,7 +98,8 @@ int main()
 		}
 		else if (command == "quit")
 		{
-			return 1;
+			delete tree;
+			return 0;
 		}
 		else
 		{

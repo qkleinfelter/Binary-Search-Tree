@@ -49,4 +49,6 @@ private:
 	int getChildCount(node* n);
 	bool isLeftChild(node* n);
 	bool isRightChild(node* n);
+	
+	void deleteNode(node* n);
 };
