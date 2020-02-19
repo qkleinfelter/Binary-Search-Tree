@@ -42,6 +42,7 @@ private:
 
 	node* min(node* n);
 	node* max(node* n);
+	node* successor(node* n);
 
 	bool isLeaf(node* n);
 	bool isRoot(node* n);

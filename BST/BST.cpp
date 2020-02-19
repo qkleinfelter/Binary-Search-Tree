@@ -78,12 +78,14 @@ void BST::remove(string word)
 		cout << word << " -1" << endl;
 		return;
 	}
+	// Just need to decrement count if we have > 1
 	if (p->count > 1)
 	{
 		p->count = p->count--;
 		cout << p->word << " " << p->count << endl;
 		return;
 	}
+	// No children (leaf) node case
 	if (isLeaf(p))
 	{
 		if (isRoot(p))
@@ -105,6 +107,7 @@ void BST::remove(string word)
 			cout << word << " 0" << endl;
 		}
 	}
+	// One Child Case
 	if (getChildCount(p) == 1) 
 	{
 		if (isRoot(p))
@@ -131,6 +134,25 @@ void BST::remove(string word)
 				delete p;
 				cout << word << " 0" << endl;
 			}
+		}
+	}
+	// Two Children Case
+	else if (getChildCount(p) == 2)
+	{
+		node* q = successor(p);
+		if (q == p->right)
+		{
+			p->word = q->word;
+			p->count = q->count;
+			p->right = q->right;
+			delete q;
+		}
+		else
+		{
+			p->word = q->word;
+			p->count = q->count;
+			p->right->left = q->right;
+			delete q;
 		}
 	}
 }
@@ -256,6 +278,21 @@ void BST::next(string word)
 		q = q->parent;
 	}
 	cout << q->word << endl;
+}
+
+BST::node* BST::successor(node* n)
+{
+	if (n->right != NULL)
+	{
+		return min(n->right);
+	}
+	node* p = n->parent;
+	while (p != NULL && n == p->right)
+	{
+		n = p;
+		p = p->parent;
+	}
+	return p;
 }
 
 void BST::prev(string word)

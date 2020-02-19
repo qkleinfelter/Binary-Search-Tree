@@ -84,6 +84,10 @@ int main()
 		{
 			return 1;
 		}
+		else
+		{
+			cout << "Unknown Command" << endl;
+		}
 	}
 	return 0;
 }
