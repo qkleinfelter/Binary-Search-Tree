@@ -298,22 +298,28 @@ BST::node* BST::min(node* n)
 
 void BST::max()
 {
-	node* p = root;
-	if (p == NULL)
+	// This method prints out the maximum word in the tree, or a blank line if we don't have a tree
+	node* p = root; // Start at the root
+	if (p == NULL) // If the root is null
 	{
-		cout << endl;
+		cout << endl; // Print a blank line and exit
 		return;
 	}
+	// Use our helper max that returns a node to find the largest node in the root's tree
 	p = max(p);
+	// Print out the word contained in the largest node
 	cout << p->word << endl;
 }
 
 BST::node* BST::max(node* n)
 {
-	while (n->right != NULL)
+	// This is a helper method used to return the largest node in the subtree of a given node
+	while (n->right != NULL) // While we can go further to the right (and down)
 	{
+		// Keep going further right
 		n = n->right;
 	}
+	// We hit a spot where our right pointer is null, therefore we must be at the maximum, so return the current node
 	return n;
 }
 
