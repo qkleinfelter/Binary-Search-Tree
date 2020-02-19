@@ -93,18 +93,21 @@ void BST::remove(string word)
 			delete p;
 			root = NULL;
 			cout << word << " 0" << endl;
+			return;
 		}
 		else if (isLeftChild(p))
 		{
 			p->parent->left = NULL;
 			delete p;
 			cout << word << " 0" << endl;
+			return;
 		}
 		else if (isRightChild(p))
 		{
 			p->parent->right = NULL;
 			delete p;
 			cout << word << " 0" << endl;
+			return;
 		}
 	}
 	// One Child Case
@@ -115,6 +118,7 @@ void BST::remove(string word)
 			root = p->left != NULL ? p->left : p->right;
 			delete p;
 			cout << word << " 0" << endl;
+			return;
 		}
 		else
 		{
@@ -125,6 +129,7 @@ void BST::remove(string word)
 				q->parent = p->parent;
 				delete p;
 				cout << word << " 0" << endl;
+				return;
 			}
 			else if (isRightChild(p))
 			{
@@ -133,6 +138,7 @@ void BST::remove(string word)
 				q->parent = p->parent;
 				delete p;
 				cout << word << " 0" << endl;
+				return;
 			}
 		}
 	}
@@ -146,6 +152,8 @@ void BST::remove(string word)
 			p->count = q->count;
 			p->right = q->right;
 			delete q;
+			cout << word << " 0" << endl;
+			return;
 		}
 		else
 		{
@@ -153,6 +161,8 @@ void BST::remove(string word)
 			p->count = q->count;
 			p->right->left = q->right;
 			delete q;
+			cout << word << " 0" << endl;
+			return;
 		}
 	}
 }
@@ -277,7 +287,15 @@ void BST::next(string word)
 		p = q;
 		q = q->parent;
 	}
-	cout << q->word << endl;
+	if (q != NULL)
+	{
+		cout << q->word << endl;
+	}
+	else
+	{
+		cout << endl;
+		return;
+	}
 }
 
 BST::node* BST::successor(node* n)
@@ -314,8 +332,15 @@ void BST::prev(string word)
 		p = q;
 		q = q->parent;
 	}
-	cout << q->word << endl;
-
+	if (q != NULL)
+	{
+		cout << q->word << endl;
+	}
+	else
+	{
+		cout << endl;
+		return;
+	}
 }
 
 void BST::parent(string word)
