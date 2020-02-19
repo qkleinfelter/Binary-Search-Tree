@@ -9,7 +9,7 @@
 	Author: Quinn Kleinfelter
 	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
 	Instructor: Dr. Thomas
-	Last Edited: 2/14/20
+	Last Edited: 2/19/20
 	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
 */
 
@@ -26,50 +26,67 @@ BST::BST()
 
 BST::~BST()
 {
+	// Deletes the node at the root of the tree, and all nodes in its subtrees
 	deleteNode(root);
+	root = NULL; // After we have deleted all of our nodes make the root of the tree null
 }
 
 void BST::deleteNode(node* n)
 {
-	if (n->left != NULL) deleteNode(n->left);
-	if (n->right != NULL) deleteNode(n->right);
-	delete n;
+	// This method uses a post-order traversal of all of the subtrees of node n to delete each node.
+	// We must delete the nodes in the left and right subtrees first to ensure that we still have access to them
+	// If we had deleted n at the beginning (pre-order) or in the middle (in-order), we would not have access to the left and/or right subtrees to delete anymore
+	if (n->left != NULL) deleteNode(n->left); // If the left subtree isn't null, recursively delete it
+	if (n->right != NULL) deleteNode(n->right); // If the right subtree isn't null, recursively delete it
+	delete n; // After we've deleted the subtrees, delete n
 }
 
 void BST::insert(string word)
 {
-	node* x = root;
-	node* y = nullptr;
-	while (x != NULL)
+	// To add a word to the tree, we first traverse the tree, looking for the word
+	// If we find it, we increment the counter, print and return; otherwise we store the position where it belongs,
+	// create a new node, and append it to the bottom of the tree in the appropriate position
+	node* x = root; // Start at the root
+	node* y = nullptr; // Y will lag one step behind x, to ensure we keep track of where we fall off the tree
+	while (x != NULL) 
 	{
-		y = x;
-		if (x->word == word)
+		y = x; // Save our current location in y
+		if (x->word == word) 
 		{
+			// If the word in x matches our word we increment the count, print and return
 			x->count++;
 			cout << x->word << " " << x->count << endl;
 			return;
 		}
+		// The word didn't match our word, so we check to see if the word we want to insert should go to the left or right of the current word,
+		// and make x the pointer from our current words appropriate direction
 		x = word < x->word ? x->left : x->right;
 	}
+	// We made it here so we must not have found the word in the list
+	// Therefore, create a new node to store the word
 	node* newNode = new node;
-	newNode->count = 1;
-	newNode->word = word;
-	newNode->left = NULL;
+	newNode->count = 1; // Redundantly set the count in the new node to 1
+	newNode->word = word; // Set the word in the new node to be the word we are adding to the list
+	newNode->left = NULL; // We only add new nodes as leaves so set the left and right pointers to null
 	newNode->right = NULL;
-	newNode->parent = y;
+	newNode->parent = y; // Set the parent of our new node to be the location we were at before we dropped off
 	
 	if (y == NULL)
 	{
+		// y is only NULL if the root was null so our new node must be the first in the tree, therefore make it the root
 		root = newNode;
 	}
 	else if (newNode->word < y->word)
 	{
+		// If newNode's word is less than the parents word, make it the left child
 		y->left = newNode;
 	}
 	else
 	{
+		// Otherwise, we know it must go to the right of the parent
 		y->right = newNode;
 	}
+	// Print out our new word and its count per spec.
 	cout << newNode->word << " " << newNode->count << endl;
 }
 

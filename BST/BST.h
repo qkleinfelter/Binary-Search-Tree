@@ -2,7 +2,7 @@
 	Quinn Kleinfelter
 	EECS 2510-001 Non Linear Data Structures Spring 2020
 	Dr. Thomas
-	Last Edited: 2/14/20
+	Last Edited: 2/19/20
 */
 
 
@@ -37,18 +37,18 @@ private:
 
 	node* root = NULL; // A pointer to the root of our tree, NULL until we add a node to the tree
 
-	void traverse(int& index, node* n);
+	void traverse(int& index, node* n); // Goes through our list and prints out the contents of each node in order w/ an index
 	node* findNode(string word); // Returns a pointer to the node with a given word inside it
 
-	node* min(node* n);
-	node* max(node* n);
-	node* successor(node* n);
+	node* min(node* n); // Returns the node with the minimum string in the subtree of n
+	node* max(node* n); // Returns the node with the maximum string in the subtree of n
+	node* successor(node* n); // Returns the successor node of n
 
-	bool isLeaf(node* n);
-	bool isRoot(node* n);
-	int getChildCount(node* n);
-	bool isLeftChild(node* n);
-	bool isRightChild(node* n);
+	bool isLeaf(node* n); // Checks if the node n is a leaf (has no children)
+	bool isRoot(node* n); // Checks if the node n is the root of the tree
+	int getChildCount(node* n); // Counts the number of children of n
+	bool isLeftChild(node* n); // Checks if n is the left child of its parent
+	bool isRightChild(node* n); // Checks if n is the right child of its parent
 	
-	void deleteNode(node* n);
+	void deleteNode(node* n); // Deletes node n and all nodes below it in the subtree - used in the destructor
 };
