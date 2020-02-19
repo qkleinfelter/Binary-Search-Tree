@@ -258,33 +258,41 @@ void BST::traverse(int& index, node* n)
 
 BST::node* BST::findNode(string word)
 {
-	node* p = root;
-	while (p != NULL)
+	// This is a helper function used extensively to find the node that contains a given word
+	node* p = root; // Start at the root
+	while (p != NULL) // While our node p isn't null
 	{
+		// If the node we are currently on matches the word we are looking for, return a pointer to the node
 		if (p->word == word) return p;
-		p = word < p->word ? p->left : p->right;
+		p = word < p->word ? p->left : p->right; // The word isn't contained in our current node, so we use the ternary operator to decide whether or not we need to go left or right
 	}
-	return p;
+	return p; // In the case that we never found the node we are looking for, this will return NULL (either root was NULL, or we fell off the end of one of the leaves)
 }
 
 void BST::min()
 {
-	node* p = root;
-	if (p == NULL)
+	// This method prints out the minimum word in the tree, or a blank line if we don't have a tree
+	node* p = root; // Start at the root 
+	if (p == NULL) // If the root is null
 	{
-		cout << endl;
+		cout << endl; // Print a blank line and exit
 		return;
 	}
+	// Use our helper min that returns a node to find the smallest node in the root's tree
 	p = min(p);
+	// Print out the word contained in the smallest node
 	cout << p->word << endl;
 }
 
 BST::node* BST::min(node* n) 
 {
-	while (n->left != NULL)
+	// This is a helper method used to return the smallest node in the subtree of a given node
+	while (n->left != NULL) // While we can go further to the left (and down)
 	{
+		// Keep going further left
 		n = n->left;
 	}
+	// We hit a spot where our left pointer is null, therefore we must be at the minimum, so return the current node
 	return n;
 }
 
