@@ -17,6 +17,22 @@ string toLower(const string& s)
 	return temp;
 }
 
+void printHelp()
+{
+	cout << "Available Commands: " << endl;
+	cout << "insert <string>" << endl;
+	cout << "delete <string>" << endl;
+	cout << "search <string>" << endl;
+	cout << "min" << endl;
+	cout << "max" << endl;
+	cout << "next <string>" << endl;
+	cout << "prev <string>" << endl;
+	cout << "list" << endl;
+	cout << "parent <string>" << endl;
+	cout << "child <string>" << endl;
+	cout << "quit" << endl;
+}
+
 
 int main()
 {
@@ -78,7 +94,7 @@ int main()
 		}
 		else if (command == "help")
 		{
-
+			printHelp();
 		}
 		else if (command == "quit")
 		{

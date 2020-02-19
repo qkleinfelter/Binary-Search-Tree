@@ -362,7 +362,25 @@ void BST::child(string word)
 		cout << endl;
 		return;
 	}
-	cout << p->left->word << " " << p->right->word << endl;
+	if (p->left != NULL && p->right != NULL)
+	{
+		cout << p->left->word << " " << p->right->word << endl;
+		return;
+	}
+	else if (p->left == NULL && p->right != NULL)
+	{
+		cout << "NULL " << p->right->word << endl;
+		return;
+	}
+	else if (p->left != NULL && p->right == NULL)
+	{
+		cout << p->left->word << " NULL" << endl;
+		return;
+	}
+	else {
+		cout << "NULL NULL" << endl;
+		return;
+	}
 }
 
 bool BST::isLeaf(node* n)
