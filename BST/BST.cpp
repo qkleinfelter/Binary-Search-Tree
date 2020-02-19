@@ -92,13 +92,17 @@ void BST::insert(string word)
 
 void BST::remove(string word)
 {
-	node* p = findNode(word);
+	// This method removes a given word from the binary tree
+	// If we find a node with the word we want to remove, first we check if its count is > 1, if so decrement the count, print and return
+	// if the nodes count == 1 then we actually delete the node. If we can't find the node at all simply print out the word and -1 to indicate not found
+	node* p = findNode(word); // Get a pointer to the node containing the word we want to remove 
 	if (p == NULL)
 	{
+		// If we couldn't find a node with the word we want to remove, it doesn't exist in the tree, so print the word and -1 to indicate we didn't find it.
 		cout << word << " -1" << endl;
 		return;
 	}
-	// Just need to decrement count if we have > 1
+	// If the count in the node we found is > 1 we simply decrement the count and print out
 	if (p->count > 1)
 	{
 		p->count = p->count--;
@@ -106,10 +110,11 @@ void BST::remove(string word)
 		return;
 	}
 	// No children (leaf) node case
-	if (isLeaf(p))
+	if (isLeaf(p)) // If the node we want to remove is a leaf (no children)
 	{
-		if (isRoot(p))
+		if (isRoot(p)) 
 		{
+			// If the node we want to remove has no kids and is the root, simply delete the node, and set root to NULL, before printing and exiting
 			delete p;
 			root = NULL;
 			cout << word << " 0" << endl;
@@ -117,72 +122,80 @@ void BST::remove(string word)
 		}
 		else if (isLeftChild(p))
 		{
-			p->parent->left = NULL;
+			// Here we know the node is a leaf, that isn't the root, and is a left child of something
+			p->parent->left = NULL; // Set the parent's left pointer to be NULL, before deleting p, printing and exiting
 			delete p;
 			cout << word << " 0" << endl;
 			return;
 		}
 		else if (isRightChild(p))
 		{
-			p->parent->right = NULL;
+			// Here we know the node is a leaf, that isn't the root, and is a right child of something
+			p->parent->right = NULL; // Set the parent's right pointer to be NULL, before deleting p, printing and exiting
 			delete p;
 			cout << word << " 0" << endl;
 			return;
 		}
 	}
 	// One Child Case
-	if (getChildCount(p) == 1) 
+	if (getChildCount(p) == 1) // If the node we want to remove has a single child
 	{
 		if (isRoot(p))
 		{
-			root = p->left != NULL ? p->left : p->right;
-			delete p;
+			// If we want to remove a node that is the root, and has one child, we simply make that child the root, delete p, print and exit
+			root = p->left != NULL ? p->left : p->right; // If the left child of p is not null, set the root to that, otherwise set the root to the right child. We know it only has one child
+			delete p; 
 			cout << word << " 0" << endl;
 			return;
 		}
-		else
+		else if (isLeftChild(p))
 		{
-			if (isLeftChild(p))
-			{
-				node* q = p->left != NULL ? p->left : p->right;
-				p->parent->left = q;
-				q->parent = p->parent;
-				delete p;
-				cout << word << " 0" << endl;
-				return;
-			}
-			else if (isRightChild(p))
-			{
-				node* q = p->left != NULL ? p->left : p->right;
-				p->parent->right = q;
-				q->parent = p->parent;
-				delete p;
-				cout << word << " 0" << endl;
-				return;
-			}
+			// Here we know the node has one child, is not the root and is the left child of another node
+			node* q = p->left != NULL ? p->left : p->right; // Get the pointer to the child of the node we want to delete, using the ternary operator to get the child pointer that isn't null
+			p->parent->left = q; // Set p's parent's left child to be q (p's child)
+			q->parent = p->parent; // Set q's parent to be p's parent
+			delete p; // Delete p
+			cout << word << " 0" << endl; // Print out what we did
+			return; // Exit
+		}
+		else if (isRightChild(p))
+		{
+			// Here we know the node has one child, is not the root, and is the right child of another node
+			node* q = p->left != NULL ? p->left : p->right; // Get the pointer to the child of the node we want to delete, using the ternary operator to get the child pointer that isn't null
+			p->parent->right = q; // Set p's parent's right child to be q (p's child)
+			q->parent = p->parent; // Set q's parent to be p's parent
+			delete p; // Delete p
+			cout << word << " 0" << endl; // Print out what we did
+			return; // Exit
 		}
 	}
 	// Two Children Case
-	else if (getChildCount(p) == 2)
+	else if (getChildCount(p) == 2) // If the node we want to remove has 2 children (final case!)
 	{
+		// First, we want to get the successor of the node want to remove
 		node* q = successor(p);
-		if (q == p->right)
+		if (q == p->right) // If p's successor (q) is p's immediate right child
 		{
-			p->word = q->word;
-			p->count = q->count;
-			p->right = q->right;
-			delete q;
-			cout << word << " 0" << endl;
-			return;
+			// Copy q's contents into p and set p's right child to be q's right child
+			// Effectively splicing out q, then delete q
+			p->word = q->word; // Copy q's word into p
+			p->count = q->count; // Copy q's count into p
+			p->right = q->right; // Make p's right child be q's right child
+			delete q; // Delete q now that we have spliced it out
+			cout << word << " 0" << endl; // Print out what we did
+			return; // Exit
 		}
 		else
 		{
-			p->word = q->word;
-			p->count = q->count;
-			p->right->left = q->right;
-			delete q;
-			cout << word << " 0" << endl;
-			return;
+			// Now we know that its successor must be somewhere in its right subtree but not immediately
+			// Here we want to copy q's contents into p and set p's right child's left child to be q's right child
+			// This effectively splices out q, so we can safely delete it
+			p->word = q->word; // Copy q's word into p
+			p->count = q->count; // Copy q's count into p
+			p->right->left = q->right; // Make p's right child's left child q's right child, splicing out q
+			delete q; // Delete q now that we've spliced it out
+			cout << word << " 0" << endl; // Print out what we did
+			return; // Exit
 		}
 	}
 }
