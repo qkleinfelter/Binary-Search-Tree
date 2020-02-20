@@ -325,29 +325,38 @@ BST::node* BST::max(node* n)
 
 void BST::next(string word)
 {
-	node* p = findNode(word);
-	if (p == NULL) 
+	// This method prints out the next (successor) word for a given word
+	node* p = findNode(word); // First, find the node with the word we want to find the successor of
+	if (p == NULL) // If the word we want to find the successor of doesn't exist, we print a blank line and exit
 	{
 		cout << endl;
 		return;
 	}
-	if (p->right != NULL) {
-		node* successor = min(p->right);
-		cout << successor->word << endl;
+	if (p->right != NULL) 
+	{
+		// If the node we want to find the successor of has a right child
+		node* successor = min(p->right); // Find the minimum node in that right child's subtree, this is our successor
+		cout << successor->word << endl; // Print out the successor and exit
 		return;
 	}
+	// We don't have a right child so we need to get a little more creative, first we get the parent of our current node
 	node* q = p->parent;
 	while (q != NULL && p == q->right)
 	{
-		p = q;
-		q = q->parent;
+		// While q isn't null (our parent) and p is q's right child we want to keep going up the tree
+		p = q; // set p to be q (p's parent)
+		q = q->parent; // set q to be q's parent
 	}
-	if (q != NULL)
+	// When we reach here, either p's parent was null originally (i.e. we are at the root, and therefore have no successor with no right children), or we followed a left link upwards
+	if (q != NULL) // This is only the case if we were able to go up, but eventually followed a left link
 	{
+		// Print out the word contained in q, it is our successor
 		cout << q->word << endl;
+		return;
 	}
 	else
 	{
+		// Otherwise, we were the root and had no kids, therefore no successor, so we should print a blank line
 		cout << endl;
 		return;
 	}
@@ -355,6 +364,7 @@ void BST::next(string word)
 
 BST::node* BST::successor(node* n)
 {
+	// This is a helper function used only in deleting, that finds the successor of the node
 	if (n->right != NULL)
 	{
 		return min(n->right);
