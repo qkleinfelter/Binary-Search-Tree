@@ -364,45 +364,57 @@ void BST::next(string word)
 
 BST::node* BST::successor(node* n)
 {
-	// This is a helper function used only in deleting, that finds the successor of the node
+	// This is a helper function used only in deleting, that finds the successor of the node and returns it
 	if (n->right != NULL)
 	{
+		// If the node has a right child we just want the minimum of that nodes subtree
 		return min(n->right);
 	}
+	// Otherwise grab the parent
 	node* p = n->parent;
 	while (p != NULL && n == p->right)
 	{
+		// While p hasn't gone to null (i.e. we are on the root), or we follow a left link
 		n = p;
 		p = p->parent;
 	}
+	// Return where p is at (if it is null there is no successor)
 	return p;
 }
 
 void BST::prev(string word)
 {
-	node* p = findNode(word);
+	// This method prints out the previous (or predecessor) word for a given word
+	node* p = findNode(word); // Find the node with the word we want to find the predecessor of
 	if (p == NULL)
 	{
+		// If our word doesn't exist in the tree, output a blank line
 		cout << endl;
 		return;
 	}
-	if (p->left != NULL) {
+	if (p->left != NULL) 
+	{
+		// If the left subtree of our node exists, then we want to get the maximum node from that subtree and print out its word
 		node* successor = max(p->left);
 		cout << successor->word << endl;
 		return;
 	}
+	// Otherwise we want to grab the parent
 	node* q = p->parent;
 	while (q != NULL && p == q->left)
 	{
+		// While q isn't null & we followed a left link, keep going up
 		p = q;
 		q = q->parent;
 	}
 	if (q != NULL)
 	{
+		// If q exists, that means we found our previous node so print out the word from it
 		cout << q->word << endl;
 	}
 	else
 	{
+		// Otherwise, the previous doesn't exist so print a blank line
 		cout << endl;
 		return;
 	}
@@ -410,39 +422,48 @@ void BST::prev(string word)
 
 void BST::parent(string word)
 {
-	node* p = findNode(word);
+	// This method prints out the parent word of the word we take as an input
+	node* p = findNode(word); // Find the node we took as an input
 	if (p == NULL || p->parent == NULL)
 	{
+		// If the node doesn't exist, or doesn't have a parent (its the root) then print a blank line
 		cout << endl;
 		return;
 	}
+	// Otherwise, print out the word from inside the parent
 	cout << p->parent->word << endl;
 }
 
 void BST::child(string word)
 {
-	node* p = findNode(word);
+	// This method prints out the words from the children of the node that contains the word we take as input
+	node* p = findNode(word); // Find the node containing the input word
 	if (p == NULL)
 	{
+		// If the word doesn't exist, print a blank line
 		cout << endl;
 		return;
 	}
 	if (p->left != NULL && p->right != NULL)
 	{
+		// If neither child of our word is null print their words with a space in between
 		cout << p->left->word << " " << p->right->word << endl;
 		return;
 	}
 	else if (p->left == NULL && p->right != NULL)
 	{
+		// If the left child is null and the right is not, print NULL for the left child and the right child's word
 		cout << "NULL " << p->right->word << endl;
 		return;
 	}
 	else if (p->left != NULL && p->right == NULL)
 	{
+		// If the right child is null and the left is not, print NULL for the right child and the left child's word
 		cout << p->left->word << " NULL" << endl;
 		return;
 	}
 	else {
+		// If both children are null simply print NULL NULL
 		cout << "NULL NULL" << endl;
 		return;
 	}
@@ -450,26 +471,31 @@ void BST::child(string word)
 
 bool BST::isLeaf(node* n)
 {
+	// Helper function to check if a given node is a leaf (i.e. both of its children are null)
 	return n->left == nullptr && n->right == nullptr;
 }
 
 bool BST::isRoot(node* n)
 {
+	// Helper function that quickly checks if a node is the root node
 	return n == root;
 }
 
 bool BST::isLeftChild(node* n)
 {
+	// Helper function to check if a node is its parent's left child
 	return n == n->parent->left;
 }
 
 bool BST::isRightChild(node* n)
 {
+	// Helper function to check if a node is its parent's right child
 	return n == n->parent->right;
 }
 
 int BST::getChildCount(node* n)
 {
+	// Helper function to get the number of children a given node has
 	if (n == nullptr) return -1; // can’t count children of no node!
 	if (isLeaf(n)) return 0; // leaves have no child nodes
 	if (n->left != nullptr && n->right != nullptr) return 2; // 2 children
