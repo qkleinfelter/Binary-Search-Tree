@@ -181,7 +181,7 @@ void BST::remove(string word)
 			p->word = q->word; // Copy q's word into p
 			p->count = q->count; // Copy q's count into p
 			p->right = q->right; // Make p's right child be q's right child
-			q->right->parent = p; // Make q's right child's parent be p
+			if(q->right != NULL) q->right->parent = p; // Make q's right child's parent be p, if the right child exists
 			delete q; // Delete q now that we have spliced it out
 			cout << word << " 0" << endl; // Print out what we did
 			return; // Exit
