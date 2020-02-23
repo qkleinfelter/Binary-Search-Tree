@@ -9,7 +9,7 @@
 	Author: Quinn Kleinfelter
 	Class: EECS 2510-001 Non Linear Data Structures Spring 2020
 	Instructor: Dr. Thomas
-	Last Edited: 2/19/20
+	Last Edited: 2/22/20
 	Copyright: Copyright 2020 by Quinn Kleinfelter. All rights reserved.
 */
 
