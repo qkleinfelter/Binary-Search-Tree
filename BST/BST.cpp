@@ -210,11 +210,11 @@ void BST::search(string word)
 		if (p->word == word) // If we found the word, print it out!
 		{
 			cout << p->word << " " << p->count << endl;
+			return;
 		}
 		// If we didn't find the word yet, check if it should be to the left or right of the current word,
 		// then set p to the left or right node.
 		p = word < p->word ? p->left : p->right;
-		return;
 	}
 	cout << word << " 0"<< endl; // If we didn't find the word in the list, and we fell of the edge of it, print the word with 0 count
 }
@@ -447,24 +447,24 @@ void BST::child(string word)
 	if (p->left != NULL && p->right != NULL)
 	{
 		// If neither child of our word is null print their words with a space in between
-		cout << p->left->word << " " << p->right->word << endl;
+		cout << p->left->word << ", " << p->right->word << endl;
 		return;
 	}
 	else if (p->left == NULL && p->right != NULL)
 	{
 		// If the left child is null and the right is not, print NULL for the left child and the right child's word
-		cout << "NULL " << p->right->word << endl;
+		cout << "NULL, " << p->right->word << endl;
 		return;
 	}
 	else if (p->left != NULL && p->right == NULL)
 	{
 		// If the right child is null and the left is not, print NULL for the right child and the left child's word
-		cout << p->left->word << " NULL" << endl;
+		cout << p->left->word << ", NULL" << endl;
 		return;
 	}
 	else {
 		// If both children are null simply print NULL NULL
-		cout << "NULL NULL" << endl;
+		cout << "NULL, NULL" << endl;
 		return;
 	}
 }
